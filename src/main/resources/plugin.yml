@@ -1,0 +1,4 @@
+name: RaysGrid
+version: '${project.version}'
+main: me.itoncek.raysgrid.RaysGrid
+api-version: 1.18
