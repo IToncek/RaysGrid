@@ -45,7 +45,9 @@ public final class RaysGrid extends JavaPlugin {
                                     block.setType(block.getType(), false);
                                 }
                             } else {
-                                chunk.getBlock(x, y, z).setType(Material.AIR, false);
+                                if(!isEqual(block.getType())) {
+                                    chunk.getBlock(x, y, z).setType(Material.AIR, false);
+                                }
                             }
                         }
                     }
@@ -57,6 +59,10 @@ public final class RaysGrid extends JavaPlugin {
         }
     };
 
+    public static boolean isEqual(Material mat) {
+        return mat == Material.CHEST || mat == Material.END_GATEWAY || mat == Material.SPAWNER || mat == Material.END_PORTAL_FRAME || mat == Material.NETHER_PORTAL || mat == Material.END_PORTAL;
+    }
+
     @Override
     public void onEnable() {
         for (World world : Bukkit.getWorlds()) {
@@ -64,7 +70,7 @@ public final class RaysGrid extends JavaPlugin {
         }
         try {
             File f = new File("./plugins/RaysGrid/chunks.tmp");
-            if (f.exists()) {
+            if(f.exists()) {
                 Scanner sc = new Scanner(f);
                 sc.forEachRemaining(s -> {
                     String[] s1 = s.split("\\r?,");
