@@ -41,9 +41,7 @@ public final class RaysGrid extends JavaPlugin {
                         for(int z = 0; z <= 15; z++) {
                             Block block = chunk.getBlock(x, y, z);
                             if(x % 4 == 0 && y % 4 == 0 && z % 4 == 0) {
-                                if(block.isLiquid()) {
-                                    block.setType(block.getType(), false);
-                                } else if((block.getType().equals(Material.SAND))|| block.getType().equals(Material.GRAVEL)){
+                                if(block.isLiquid() || block.getType().hasGravity()) {
                                     block.setType(block.getType(), false);
                                 }
                             } else {
@@ -61,7 +59,9 @@ public final class RaysGrid extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        for (World world : Bukkit.getWorlds()) {
+            world.setSpawnLocation(4, world.getHighestBlockYAt(4, 4), 4);
+        }
         try {
             File f = new File("./plugins/RaysGrid/chunks.tmp");
             if (f.exists()) {
@@ -69,7 +69,7 @@ public final class RaysGrid extends JavaPlugin {
                 sc.forEachRemaining(s -> {
                     String[] s1 = s.split("\\r?,");
                     list.add(Objects.requireNonNull(getServer().getWorld(s1[2])).getChunkAt(Integer.parseInt(s1[0]), Integer.parseInt(s1[1])));
-                    Bukkit.getLogger().info("loaded " + Integer.parseInt(s1[0]) + ";" + Integer.parseInt(s1[1]));
+                    //Bukkit.getLogger().info("loaded " + Integer.parseInt(s1[0]) + ";" + Integer.parseInt(s1[1]));
                 });
             }
         } catch (FileNotFoundException e) {
@@ -80,17 +80,6 @@ public final class RaysGrid extends JavaPlugin {
         runnable.runTaskTimer(this, 100L, 0L);
 
         new BukkitRunnable() {
-            /**
-             * When an object implementing interface {@code Runnable} is used
-             * to create a thread, starting the thread causes the object's
-             * {@code run} method to be called in that separately executing
-             * thread.
-             * <p>
-             * The general contract of the method {@code run} is that it may
-             * take any action whatsoever.
-             *
-             * @see Thread#run()
-             */
             @Override
             public void run() {
                 if(!lock) {
