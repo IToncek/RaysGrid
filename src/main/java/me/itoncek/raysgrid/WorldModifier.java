@@ -11,8 +11,10 @@ import static me.itoncek.raysgrid.RaysGrid.list;
 public class WorldModifier implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerChunkLoad(PlayerChunkLoadEvent event) {
-        if(!list.contains(event.getChunk()))
-            if(!ClearList.contains(event.getChunk()))
+        if(!list.contains(event.getChunk())) {
+            if(!ClearList.contains(event.getChunk())) {
                 ClearList.add(event.getChunk());
+            }
+        }
     }
 }

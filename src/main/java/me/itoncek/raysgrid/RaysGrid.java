@@ -35,26 +35,19 @@ public final class RaysGrid extends JavaPlugin {
                 for(Player p : Bukkit.getOnlinePlayers()) {
                     p.sendActionBar(Component.text("Modifying terrain, please wait... Current queue: " + ClearList.size()));
                 }
-
                 for(int x = 0; x <= 15; x++) {
                     for(int y = chunk.getWorld().getMinHeight(); y <= chunk.getWorld().getMaxHeight(); y++) {
                         for(int z = 0; z <= 15; z++) {
                             Block block = chunk.getBlock(x, y, z);
-                            if(x % 4 == 0 && y % 4 == 0 && z % 4 == 0) {
-                                if(block.isLiquid() || block.getType().hasGravity()) {
-                                    block.setType(block.getType(), false);
-                                }
-                            } else {
                                 if(!isEqual(block.getType())) {
                                     chunk.getBlock(x, y, z).setType(Material.AIR, false);
                                 }
-                            }
                         }
                     }
                 }
                 ClearList.remove(0);
                 list.add(chunk);
-                //Bukkit.getLogger().info("converted " + chunk.getX() + ";" + chunk.getZ());
+                Bukkit.getLogger().info("converted " + chunk.getX() + ";" + chunk.getZ());
             }
         }
     };
